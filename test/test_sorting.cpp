@@ -4,6 +4,26 @@
 #include <numeric>
 #include <random>
 
+TEST (Sorting, BubbleSortAsm)
+{
+    std::vector<int> numbers(11);
+    std::iota(numbers.begin(), numbers.end(), -5);
+    auto numbers2 = numbers;
+    bubble_sort_asm(numbers2.data(), numbers2.size());
+    EXPECT_TRUE(std::is_sorted(numbers2.begin(), numbers2.end()));
+    EXPECT_TRUE(std::is_permutation(numbers.begin(), numbers.end(), numbers2.begin(), numbers2.end()));
+    std::random_device rd;
+    std::mt19937 g(rd());
+
+    do
+    {
+        std::shuffle(numbers2.begin(), numbers2.end(), g);
+    } while(std::equal(numbers.begin(), numbers.end(), numbers2.begin()));
+    bubble_sort_asm(numbers2.data(), numbers2.size());
+    EXPECT_TRUE(std::is_sorted(numbers2.begin(), numbers2.end()));
+    EXPECT_TRUE(std::is_permutation(numbers.begin(), numbers.end(), numbers2.begin(), numbers2.end()));
+}
+
 TEST (Sorting, BubbleSortCpp)
 {
     std::vector<int> numbers(11);

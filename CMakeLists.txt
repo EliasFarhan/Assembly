@@ -25,6 +25,7 @@ set_target_properties(ASM_LIB PROPERTIES LINKER_LANGUAGE CXX)
 
 file(GLOB_RECURSE SRC_FILES src/*.cpp include/*.h)
 add_library(Common ${SRC_FILES})
+target_link_libraries(Common PUBLIC ASM_LIB)
 target_include_directories(Common PUBLIC include/)
 IF(MSVC)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /arch:AVX2 /Oi /Oy-")
@@ -42,7 +43,7 @@ foreach(course_file ${COURSE_FILES} )
     string( REPLACE ".cpp" "" course_name ${course_relative_path} )
     add_executable(${course_name} ${course_file})
     # Make sure YourLib is linked to each app
-    target_link_libraries(${course_name} PUBLIC Common ASM_LIB)
+    target_link_libraries(${course_name} PUBLIC Common)
 
     target_link_libraries(${course_name} PRIVATE GTest::gtest GTest::gtest_main)
     set_property(TARGET ${course_name} PROPERTY CXX_STANDARD 20)
