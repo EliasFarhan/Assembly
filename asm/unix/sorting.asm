@@ -7,7 +7,7 @@
 ; rsi = length
 global bubble_sort_asm
 bubble_sort_asm: ; (int*, size_t)
-    lea r10, [rdi+(rsi-1)*4] ; last (end-1)
+    lea r10, [rdi+(rsi-1)*4] ; back (end-1)
     test rsi, rsi ; count zero, bye
     je .bubble_end
 .bubble_loop_begin:
@@ -34,7 +34,34 @@ bubble_sort_asm: ; (int*, size_t)
 .bubble_end:
     ret
 
+; r10 = begin + length - 1
+; rdi = begin
+; rsi = length
+; r11 = current index
+; r12 = ptr going back
 global insertion_sort_asm
 insertion_sort_asm:
-end_insertion:
+    lea r10, [rdi+rsi*4] ; end
+    test rsi, rsi ; count zero, bye
+    je .insertion_end
+    lea r11, [rdi+4]
+.insertion_loop_begin:
+    cmp r11, r10
+    je .insertion_end
+    mov r12, r11
+.insertion_iteration_loop:
+    cmp r12, rdi
+    je .insertion_loop_end
+    mov r14d, dword [r12-4]
+    mov r15d, dword [r12]
+    cmp r14d, r15d
+    jle .insertion_loop_end
+    mov dword [r12-4], r15d
+    mov dword [r12], r14d
+    sub r12, 4
+    jmp .insertion_iteration_loop
+.insertion_loop_end:
+    add r11, 4
+    jmp .insertion_loop_begin
+.insertion_end:
     ret
