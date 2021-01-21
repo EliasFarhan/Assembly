@@ -3,11 +3,13 @@
 ; r13 = swap_count
 ; r11 = index ptr
 ; r14d and r15d = compared values.
+; rdi = begin
+; rsi = length
 global bubble_sort_asm
 bubble_sort_asm: ; (int*, size_t)
-    lea r10, [rdi+rsi-1] ; last
+    lea r10, [rdi+(rsi-1)*4] ; last (end-1)
     test rsi, rsi ; count zero, bye
-    je .end_bubble
+    je .bubble_end
 .bubble_loop_begin:
     xor r13, r13 ; swap_count set to 0
     mov r11, rdi ; begin index ptr
@@ -23,13 +25,13 @@ bubble_sort_asm: ; (int*, size_t)
     mov dword [r11+4], r14d
     inc r13 ; update swap_count
 .bubble_iteration_end:
-    inc r11
+    add r11, 4
     jmp .bubble_iteration_begin
 .bubble_ending_loop:
     test  r13, r13 ; no swap means sorted
-    je .end_bubble
+    je .bubble_end
     jmp .bubble_loop_begin
-.end_bubble:
+.bubble_end:
     ret
 
 global insertion_sort_asm
