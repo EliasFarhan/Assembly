@@ -29,7 +29,7 @@ target_include_directories(Common PUBLIC include/)
 IF(MSVC)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /arch:AVX2 /Oi /Oy-")
 else()
-    set_target_properties(Common PROPERTIES COMPILE_FLAGS "-save-temps=obj -masm=intel -march=haswell -ffast-math -fno-omit-frame-pointer")
+    set_target_properties(Common PROPERTIES COMPILE_FLAGS "-s -save-temps=obj -masm=intel -march=haswell -ffast-math -fno-omit-frame-pointer")
 ENDIF()
 
 

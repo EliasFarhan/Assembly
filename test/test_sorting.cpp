@@ -20,13 +20,6 @@ TEST (Sorting, BubbleSortAsm)
         std::shuffle(numbers2.begin(), numbers2.end(), g);
     } while(std::equal(numbers.begin(), numbers.end(), numbers2.begin()));
     bubble_sort_asm(numbers2.data(), numbers2.size());
-    for(auto i : numbers2)
-        std::cout << i;
-    std::cout <<'\n';
-    for(auto i : numbers)
-        std::cout << i;
-    std::cout <<'\n';
-    std::cout <<numbers2.size()<<" "<<numbers.size()<<'\n';
     EXPECT_TRUE(std::is_sorted(numbers2.begin(), numbers2.end()));
     EXPECT_TRUE(std::is_permutation(numbers.begin(), numbers.end(), numbers2.begin(), numbers2.end()));
 }
