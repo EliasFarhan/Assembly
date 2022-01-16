@@ -4,7 +4,10 @@
 extern "C"
 {
 #endif
-bool circle_area_asm(float radius);
+float circle_area_asm(float radius);
 #ifdef __cplusplus
 }
+
+float circle_area_cpp(float radius);
+
 #endif
