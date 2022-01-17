@@ -1,7 +1,11 @@
 
 #include "gtest/gtest.h"
-#include "math.h"
+#define _USE_MATH_DEFINES
 #include <cmath>
+#ifdef _MSC_VER
+#include <corecrt_math_defines.h>
+#endif
+#include "my_math.h"
 
 TEST (Math, CircleArea)
 {

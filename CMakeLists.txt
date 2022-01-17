@@ -7,7 +7,7 @@ find_package(benchmark CONFIG REQUIRED)
 find_package(GTest CONFIG REQUIRED)
 
 IF(MSVC)
-    file(GLOB_RECURSE ASM_FILES asm/win/*.asm)
+    file(GLOB_RECURSE ASM_FILES asm/windows/*.asm)
 ELSE()
     file(GLOB_RECURSE ASM_FILES asm/unix/*.asm)
 ENDIF()
@@ -15,8 +15,13 @@ foreach(asm_file ${ASM_FILES})
     get_filename_component(asm_name ${asm_file} NAME)
     set(output_file ${CMAKE_BINARY_DIR}/asm/${asm_name}.o)
     list(APPEND asm_out ${output_file})
-    add_custom_command(OUTPUT ${asm_name}.o COMMAND ${YASM_EXE}
+    if(MSVC)
+        add_custom_command(OUTPUT ${asm_name}.o COMMAND ${YASM_EXE}
+            ARGS -f win64 -o ${CMAKE_BINARY_DIR}/asm/${asm_name}.o ${asm_file})
+    else()
+        add_custom_command(OUTPUT ${asm_name}.o COMMAND ${YASM_EXE}
             ARGS -f elf64 -o ${CMAKE_BINARY_DIR}/asm/${asm_name}.o ${asm_file})
+    endif()
 endforeach()
 
 add_library(ASM_LIB ${ASM_FILES})

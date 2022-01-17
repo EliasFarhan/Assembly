@@ -1,4 +1,5 @@
-#include "math.h"
+#include "my_math.h"
+#define _USE_MATH_DEFINES
 #include <cmath>
 
 static constexpr float pi = M_PI;
